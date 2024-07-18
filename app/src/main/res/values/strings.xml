@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GrokhotovApp</string>
+    <string name="header_categories_screen">Каталог товаров</string>
+    <string name="isStock">В наличии</string>
+</resources>
