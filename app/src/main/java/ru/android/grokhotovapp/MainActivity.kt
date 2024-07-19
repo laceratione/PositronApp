@@ -15,7 +15,9 @@ import ru.android.grokhotovapp.navigation.NavigationTree
 import ru.android.grokhotovapp.presentation.categories.Categories
 import ru.android.grokhotovapp.presentation.categories.CategoriesViewModel
 import ru.android.grokhotovapp.presentation.listproducts.ProductsScreen
+import ru.android.grokhotovapp.presentation.listproducts.ProductsScreenViewModel
 import ru.android.grokhotovapp.presentation.productinfo.ProductInfo
+import ru.android.grokhotovapp.presentation.productinfo.ProductInfoViewModel
 import ru.android.grokhotovapp.ui.theme.GrokhotovAppTheme
 
 @SuppressLint("RestrictedApi")
@@ -26,30 +28,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             GrokhotovAppTheme {
                 val navController = rememberNavController()
-                navController.addOnDestinationChangedListener { controller, destination, arguments ->
-                    val routes = controller
-                        .backQueue
-                        .map { it.destination.route }
-                        .joinToString(", ")
-
-                    Log.d("BackStackLog", "BackStack: $routes")
-                }
-
-                val categoriesViewModel = hiltViewModel<CategoriesViewModel>()
-                NavHost(navController = navController, startDestination = NavigationTree.Categ.name) {
+                NavHost(
+                    navController = navController,
+                    startDestination = NavigationTree.Categ.name
+                ) {
                     composable(route = NavigationTree.Categ.name) {
+                        val categoriesViewModel = hiltViewModel<CategoriesViewModel>()
                         Categories(viewModel = categoriesViewModel, navController = navController)
                     }
-                    composable(route = NavigationTree.ListProducts.name) {
-                        Log.d("myLogs", "MainActivity.kt ProductsSceen")
+                    composable("${NavigationTree.ListProducts.name}/{slug}") {
+                        val productsScreenViewModel = hiltViewModel<ProductsScreenViewModel>()
                         ProductsScreen(
-                            viewModel = categoriesViewModel,
+                            viewModel = productsScreenViewModel,
                             navController = navController
                         )
                     }
-                    composable(route = NavigationTree.ProductInfo.name) {
+                    composable(route = "${NavigationTree.ProductInfo.name}/{slug}") {
+                        val productInfoViewModel = hiltViewModel<ProductInfoViewModel>()
                         ProductInfo(
-                            viewModel = categoriesViewModel,
+                            viewModel = productInfoViewModel,
                             navController = navController,
                             onShareClick = { title, sku ->
                                 shareProductInfo(title, sku)

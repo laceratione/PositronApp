@@ -11,5 +11,5 @@ data class ProductInfo(
     val sizeDiscount: Double = 0.0,
     val countAvailable: Int = 0,
     val images: List<String>,
-    var bitmap: ImageBitmap? = null
+    val productSlug: String = ""
 )

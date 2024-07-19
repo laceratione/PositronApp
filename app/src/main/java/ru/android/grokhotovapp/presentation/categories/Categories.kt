@@ -1,13 +1,11 @@
 package ru.android.grokhotovapp.presentation.categories
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,32 +16,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import ru.android.grokhotovapp.R
-import ru.android.grokhotovapp.common.ImageViewState
-import ru.android.grokhotovapp.common.LoadImage
 import ru.android.grokhotovapp.common.ProgressScreen
 import ru.android.grokhotovapp.di.NetworkModule
 import ru.android.grokhotovapp.navigation.NavigationTree
@@ -94,7 +78,6 @@ fun Categories(
                                 .height(20.dp)
                                 .width(21.dp)
                                 .clickable {
-//                                navController.popBackStack()
                                     viewModel.obtaintEvent(CategoryEvent.BackClicked)
                                 },
                             painter = painterResource(id = R.drawable.ic_back_gray),
@@ -150,9 +133,9 @@ fun Categories(
 
 
     LaunchedEffect(key1 = viewAction.value) {
-        when (viewAction.value) {
-            CategoryAction.OpenListProducts -> {
-                navController.navigate(route = NavigationTree.ListProducts.name) {
+        when (val action = viewAction.value) {
+            is CategoryAction.OpenListProducts -> {
+                navController.navigate(route = "${NavigationTree.ListProducts.name}/${action.slug}") {
                     popUpTo(route = NavigationTree.Categ.name)
                 }
                 viewModel.obtaintEvent(CategoryEvent.CategoryActionInvoked)

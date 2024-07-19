@@ -15,7 +15,8 @@ data class Purchase(
     @SerializedName("price") val price: Int,
     @SerializedName("price_old") val priceOld: Int,
     @SerializedName("size_discount") val sizeDiscount: Double,
-    @SerializedName("count_available") val countAvailable: Int
+    @SerializedName("count_available") val countAvailable: Int,
+    @SerializedName("product_slug") val productSlug: String
 )
 
 data class ImagesProduct(
@@ -30,5 +31,7 @@ fun ProductInfoDTO.mapToDomain() = ProductInfo(
     priceOld = purchase.priceOld,
     sizeDiscount = purchase.sizeDiscount,
     images = images.map { it.original },
-    countAvailable = purchase.countAvailable
+    countAvailable = purchase.countAvailable,
+    productSlug = purchase.productSlug
+
 )

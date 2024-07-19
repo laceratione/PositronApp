@@ -2,7 +2,6 @@ package ru.android.grokhotovapp.presentation.categories
 
 sealed class CategoryAction {
     object OpenSubCategory: CategoryAction()
-    object OpenListProducts: CategoryAction()
-    object OpenProductInfo: CategoryAction()
+    data class OpenListProducts(val slug: String): CategoryAction()
     object None: CategoryAction()
 }

@@ -21,14 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.drawable.toBitmap
 import coil.compose.SubcomposeAsyncImage
 import ru.android.grokhotovapp.R
 import ru.android.grokhotovapp.di.NetworkModule
@@ -38,7 +36,7 @@ import ru.android.grokhotovapp.ui.theme.AppTheme
 @Composable
 fun ItemListProducts(productInfo: ProductInfo, onItemClick: () -> Unit) {
     val isHaveDiscount = productInfo.sizeDiscount > 0
-    val imageURL = NetworkModule.baseIconUrl + productInfo.images[0]
+    val imageURL = NetworkModule.baseIconUrl + productInfo.images[0]//fix
 
     Column(
         modifier = Modifier
@@ -72,9 +70,6 @@ fun ItemListProducts(productInfo: ProductInfo, onItemClick: () -> Unit) {
                                 modifier = Modifier.size(28.dp)
                             )
                         }
-                    },
-                    onSuccess = {
-                        productInfo.bitmap = it.result.drawable.toBitmap().asImageBitmap()
                     },
                     contentDescription = ""
                 )

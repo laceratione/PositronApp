@@ -11,7 +11,6 @@ data class Colors(
     val primaryTintColor: Color,
     val discountColor: Color,
     val dividerColor: Color,
-
 )
 
 val lightPalette = Colors(
